@@ -23,7 +23,7 @@ CLImageEditor为iPhone应用程序提供了基本的图像编辑功能。这个V
 
 ##### 方法三：使用CocoaPods
 
-[CocoaPods](http://cocoapods.org/) CocoaPods是一个Objective-C项目依赖的包管理工具.
+[CocoaPods](http://cocoapods.org/)是一个Objective-C项目依赖的包管理工具.
 
 `pod 'CLImageEditor'`
 
