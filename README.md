@@ -1,40 +1,41 @@
 CLImageEditor
 ===
 
-CLImageEditor provides basic image editing features to iPhone apps. This ViewController is simple to use, and is also possible to incorporate as part of the UIImagePickerController easily.
-
+CLImageEditor为iPhone应用程序提供了基本的图像编辑功能。这个ViewController使用起来非常简单，并且还能够很容易地作为UIImagePickerController的一部分来使用。
 
 ![sample](Demo/CLImageEditorDemo/CLImageEditorDemo/sample.jpg)
 
 
-Installing
+安装
 ---
 
-The easiest way to use CLImageEditor is to copy all the files in the CLImageEditor group (or directory) into your app. Add the following frameworks to your project (Build Phases > Link Binary With Libraries): Accelerate, CoreGraphics, CoreImage.
+方法一：直接复制
 
-And optional tools are in OptionalImageTools. You might want to add as needed.
+使用CLImageEditor最简单的方法是将CLImageEditor组（或者目录）中的所有文件复制到您的应用中。并且添加以下几个框架(Build Phases > Link Binary With Libraries): Accelerate, CoreGraphics, CoreImage。
 
-##### Or git submodule
+可选工具包在OptionalImageTools中，您可以根据需要来添加。
 
-Alternatively, you should be able to setup a [git submodule](http://git-scm.com/docs/git-submodule) and reference the files in your Xcode project.
+##### 方法二：使用git的submodule
+
+另外，你应该能够建立一个Git子模块，并引用您的Xcode项目的文件。
 
 `git submodule add https://github.com/yackle/CLImageEditor.git`
 
-##### Or CocoaPods
+##### 方法三：使用CocoaPods
 
-[CocoaPods](http://cocoapods.org/) is a dependency manager for Objective-C projects.
+[CocoaPods](http://cocoapods.org/) CocoaPods是一个Objective-C项目依赖的包管理工具.
 
 `pod 'CLImageEditor'`
 
-or
+或者
 
 `pod 'CLImageEditor/AllTools'`
 
-By specifying AllTools subspec, all image tools including optional tools are installed.
+通过指定AllTools subspec，所有的图像工具，包括可选工具安装。
 
-#### Optional Image Tools
+#### 可选工具包
 
-There are the following optional tools.
+下面是可选工具包：
 
 `pod 'CLImageEditor/ResizeTool'`
 
@@ -46,9 +47,9 @@ There are the following optional tools.
 
 
 
-Usage
+用法
 ---
-Getting started with CLImageEditor is dead simple. Just initialize it with an UIimage and set a delegate. Then you can use it as a usual ViewController.
+入门CLImageEditor是非常的简单。只需要使用UIImage初始化它，并为其设置一个委托。然后你可以使用它作为一个平常的ViewController了。
 
 
 ```  objc
@@ -69,8 +70,7 @@ Getting started with CLImageEditor is dead simple. Just initialize it with an UI
 
 ```
 
-When used with UIImagePickerController, CLImageEditor can be made to function as a part of the picker by to call the picker's `pushViewController:animated:`.
-
+当用于UIImagePickerController时，CLImageEditor可以在picker调用`pushViewController:animated:` 方法时作为一个参数来使用。
 ```  objc
 
 #pragma mark- UIImageController delegate
@@ -87,7 +87,7 @@ When used with UIImagePickerController, CLImageEditor can be made to function as
 
 ```
 
-After a image has been edited, the editor will call delegate's `imageEditor:didFinishEdittingWithImage:` method. The delegate's method is required to receive edited image.
+当图像被编辑之后，editor将调用委托的`imageEditor:didFinishEdittingWithImage:` 方法。委托的方法需要接受编辑过的图像作为参数。
 
 ```  objc
 
@@ -102,21 +102,23 @@ After a image has been edited, the editor will call delegate's `imageEditor:didF
 
 ```
 
-Additionally, the optional delegate's `imageEditorDidCancel:` method is provided for when you want to catch the cancel callback.
+此外，当你想捕获了cancel callback时，可以调用可选的delegate imageEditorDidCancel：方法。
 
-For more detail,  please see `CLImageEditorDemo`.
+更多详细信息，请参阅 `CLImageEditorDemo`。
 
 
-Customizing
+自定义
 ---
-Icon images are included in `CLImageEditor.bundle`.  You can change the appearance by rewriting the icon images.
 
-Other features for theme settings not yet implemented.
+图标放在CLImageEditor.bundle里面。您可以通过改写图标来改变外观。
+
+其他关于主题设置功能还没有实现。
 
 
-##### Menu customization
+##### 菜单定制
+图片工具可以使用`CLImageToolInfo`来自定义。
 
-Image tools can customize using `CLImageToolInfo`. CLImageEditor's `toolInfo` property has functions to access each tool's info. For example, `subToolInfoWithToolName:recursive:` method is used to get the tool info of a particular name.
+CLImageEditor的`toolInfo`属性可以通过函数来访问每个工具的信息。例如，`subToolInfoWithToolName:recursive:` 方法用于获取一个特定名称的工具信息。
 
 ```  objc
 CLImageEditor *editor = [[CLImageEditor alloc] initWithImage:_imageView.image];
@@ -125,7 +127,7 @@ editor.delegate = self;
 CLImageToolInfo *tool = [editor.toolInfo subToolInfoWithToolName:@"CLToneCurveTool" recursive:NO];
 ```
 
-After getting a tool info, by changing its properties, you can customize the image tool on menu view.
+当获得工具的信息后，通过改变其属性，您可以自定义菜单上的图像工具了。
 
 ```  objc
 CLImageToolInfo *tool = [editor.toolInfo subToolInfoWithToolName:@"CLToneCurveTool" recursive:NO];
@@ -135,16 +137,16 @@ tool.dockedNumber = -1;  // Bring to top
 //tool.iconImagePath = @"test.png";
 ```
 
-* `dockedNumber` determines the menu item order. Note that it is simply used as a key for sorting.
+* `dockedNumber` 用来作为菜单项的一个键来进行简单的排序。从而确定每个菜单项的顺序。
 
-The list of tool names can be confirmed with the following code.
+工具列表可以用下面的代码来获得。
 
 ```  objc
 NSLog(@"%@", editor.toolInfo);
 NSLog(@"%@", editor.toolInfo.toolTreeDescription);
 ```
 
-Currently, here are the tools for iOS 7:
+目前，为ios7提供了如下工具：
 ```
 CLFilterTool
 	CLDefaultEmptyFilter
@@ -180,12 +182,11 @@ CLStickerTool
 CLTextTool
 ```
 
+一些工具还有`optionalInfo`属性，它可以用来定制更详细的信息。
 
-Some tools have `optionalInfo` property and it makes it possible to customize more detail.
+###### 裁剪工具（Clipping tool）
 
-###### Clipping tool
-
-Clipping tool allows you to set preset ratios and portrait/landscape button visibility.
+裁剪工具允许您设置预设比例及纵向/横向按钮的是否可见。
 
 ``` objc
 NSArray *ratios = @[
@@ -201,9 +202,10 @@ tool.optionalInfo[@"ratios"] = ratios;
 tool.optionalInfo[@"swapButtonHidden"] = @YES;
 ```
 
-###### Resize tool
+###### 缩放工具（Resize tool）
 
-You can set preset sizes and maximum size.
+
+你可以调整预设尺寸和最大尺寸。
 
 ``` objc
 CLImageToolInfo *tool = [editor.toolInfo subToolInfoWithToolName:@"CLResizeTool" recursive:NO];
@@ -211,9 +213,9 @@ tool.optionalInfo[@"presetSizes"] = @[@240, @320, @480, @640, @800, @960, @1024,
 tool.optionalInfo[@"limitSize"] = @3200;
 ```
 
-###### Sticker tool
+###### 贴纸工具（Sticker tool）
 
-You can set a path to a directory of another bundle where there are sticker images.
+您可以重新设置一个路径来存放贴纸图片文件的bundle。
 
 ``` objc
 CLImageToolInfo *tool = [editor.toolInfo subToolInfoWithToolName:@"CLStickerTool" recursive:NO];
@@ -222,4 +224,4 @@ tool.optionalInfo[@"stickerPath"] = @"yourStickerPath";
 
 License
 ---
-CLImageEditor is released under the MIT License, see [LICENSE](LICENSE).
+CLImageEditor 遵循 MIT License, 详见 [LICENSE](LICENSE).
